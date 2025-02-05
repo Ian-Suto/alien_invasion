@@ -1,6 +1,8 @@
 import sys
 from time import sleep
 
+from pathlib import Path
+
 import pygame
 from settings import Settings
 from ship import Ship
@@ -37,6 +39,11 @@ class AlienInvasion:
 
         # Start Alien Invasion in an active state.
         self.game_active = False
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load('game_sounds/ForgottenVictory.ogg')
+        pygame.mixer.music.set_volume(0.25)
+        pygame.mixer.music.play(-1)
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
@@ -55,6 +62,13 @@ class AlienInvasion:
             self._update_screen()
             self.clock.tick(60)
             self.clock.tick(60)
+            # Play background music
+            self._background_music()
+
+    def _background_music(self):
+        """Plays background music."""
+        
+
     
     def _check_aliens_bottom(self):
         """Check if any aliens have reached the bottom of the screen"""
@@ -114,6 +128,9 @@ class AlienInvasion:
             self.bullets, self.aliens, True, True
         )
         if collisions:
+            self.collision_sound = pygame.mixer.Sound('game_sounds/FX298.mp3')
+            self.collision_sound.set_volume(0.4)
+            self.collision_sound.play()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points
             self.sb.prep_score()

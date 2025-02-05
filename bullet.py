@@ -19,6 +19,11 @@ class Bullet(Sprite):
         # Store the bullet's position as a float.
         self.y = float(self.rect.y)
 
+        # Bullet sound
+        self.bullet_sound = pygame.mixer.Sound('game_sounds/FX297.mp3')
+        self.bullet_sound.set_volume(0.4)
+        self.bullet_sound.play()
+
     def update(self):
         """Move the bullet up the screen."""
         # Update the exact position of the bullet.
