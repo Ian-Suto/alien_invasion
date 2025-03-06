@@ -23,8 +23,7 @@ Install the project with
 * P button: Pause game
 * Spacebar: Fire bullet
 ## Demo
-
-Insert gif or link to demo
+https://github.com/user-attachments/assets/d86bc6c2-bb4d-452f-bf68-b36ff016a9fe
 
 
 ## Acknowledgements
