@@ -11,6 +11,7 @@ from alien import Alien
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
+from explosion import Explosion
 
 class AlienInvasion:
     """Overall class to manage game assests and behaviour."""
@@ -34,6 +35,7 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.explosions = pygame.sprite.Group()
 
         self._create_fleet()
 
@@ -127,11 +129,20 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True
         )
+        bullet_alien_collisions = []
+        for bullet, aliens_hit in collisions.items():
+            for alien in aliens_hit:
+                bullet_alien_collisions.append((bullet, alien))
+                for bullet, alien in bullet_alien_collisions:
+                    explosion = Explosion(self, alien.rect.center)
+                    self.explosions.add(explosion)
+
         if collisions:
             self.collision_sound = pygame.mixer.Sound('game_sounds/FX298.mp3')
             self.collision_sound.set_volume(0.4)
             self.collision_sound.play()
-            for aliens in collisions.values():
+
+            for alien in collisions.values():
                 self.stats.score += self.settings.alien_points
             self.sb.prep_score()
             self.sb.check_high_score()
@@ -140,6 +151,7 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            self.ship.centre_ship()
 
             # Increased level.
             self.stats.level += 1
@@ -192,6 +204,10 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = True
         elif event.key  == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
@@ -203,6 +219,11 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+
     
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
@@ -258,6 +279,9 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        self.explosions.draw(self.screen)
+        self.explosions.update()
 
         # Draw the score information.
         self.sb.show_score()
