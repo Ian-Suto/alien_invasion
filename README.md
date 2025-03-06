@@ -1,6 +1,6 @@
 
 # Alien Invasion
-This a python project built on pygame. It based on the popular Alien Invasion game by Eric Matthes.
+This a python project built on pygame. It is based on the popular Alien Invasion game by Eric Matthes.
 
 
 ## Running
@@ -31,6 +31,6 @@ The following resources were used:
 
  - [Python Crash Course](https://nostarch.com/python-crash-course-3rd-edition)
  - Game Art by Kenney Vleugels
- - FX sounds by Jesús Lastra
+ - Sound effects by Jesús Lastra
  - Background Music by [gdeshko](https://ydstuff.wordpress.com/about/)
 
