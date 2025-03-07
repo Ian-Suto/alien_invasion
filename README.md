@@ -10,6 +10,7 @@ Install the project with
 ```bash
   > git clone https://github.com/Ian-Suto/alien_invasion.git
   > python -m venv env
+  > cd alien_invasion
   > .\env\Scripts\activate 
   > pip install -r requirements.txt
   > python3 alien_invasion.py
